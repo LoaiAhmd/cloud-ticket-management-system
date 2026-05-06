@@ -25,8 +25,12 @@ def create_ticket(ticket: TicketClass):
     return new_ticket
 
 @app.get("/tickets/{ticket_id}") # get->read data
-def get_tickets(ticket_id: int):
+def get_ticket_by_id(ticket_id: int):
     for t in tickets:
         if t["id"] == ticket_id:
             return t
     return {"error": "Ticket not found"}
+
+@app.get("/tickets")
+def get_all_tickets():
+    return tickets

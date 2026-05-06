@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  ticket-service:
+    build: ./ticket-service # image
+    container_name: tic-serv-cont
+    ports:
+      - "8000:8000"
+    
+  support-service:
+    build: ./support-service # image
+    container_name: sup-serv-cont
+    ports:
+      - "8001:8001"

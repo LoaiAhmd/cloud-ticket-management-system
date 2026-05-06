@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+import httpx
 
 app = FastAPI()
+
+TICKET_SERVICE_URL = "http://ticket-service:8000"
 
 @app.get("/")
 def home():
@@ -40,3 +43,8 @@ def respond_ticket(response: ResponseTicket):
 @app.get("/responses")
 def get_responses():
     return responses
+
+@app.get("/tickets")
+def get_tickets():
+    response = httpx.get(f"{TICKET_SERVICE_URL}/tickets")
+    return response.json()
