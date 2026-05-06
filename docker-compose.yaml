@@ -18,3 +18,9 @@ services:
     container_name: noti-serv-cont
     ports:
       - "8002:8002"
+
+  reporting-service:
+    build: ./reporting-service # image
+    container_name: rep-serv-cont
+    ports:
+      - "8003:8003"
