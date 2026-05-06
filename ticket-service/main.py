@@ -34,3 +34,11 @@ def get_ticket_by_id(ticket_id: int):
 @app.get("/tickets")
 def get_all_tickets():
     return tickets
+
+@app.put("/tickets/{ticket_id}") # put->update data
+def update_ticket_status(ticket_id: int, status: str):
+    for t in tickets:
+        if t["id"] == ticket_id:
+            t["status"] = status
+            return t
+    return {"error": "Ticket not found"}
