@@ -5,6 +5,7 @@ import httpx
 app = FastAPI()
 
 TICKET_SERVICE_URL = "http://ticket-service:8000"
+NOTIFICATION_SERVICE_URL = "http://notification-service:8002"
 
 @app.get("/")
 def home():
@@ -38,6 +39,12 @@ def respond_ticket(response: ResponseTicket):
         "status": "responded"
     }
     responses.append(new_response)
+
+    httpx.post(f"{NOTIFICATION_SERVICE_URL}/notify",  json= {
+        "ticket_id": response.ticket_id,
+        "ticket_status": "in-progress",
+        "message": "Agent has responded to your ticket"
+    })
     return new_response
 
 @app.get("/responses")
