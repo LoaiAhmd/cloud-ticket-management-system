@@ -1,0 +1,39 @@
+#!/bin/bash
+
+green="\e[1;32m"
+yellow="\e[1;33m"
+red="\e[1;31m"
+magenta="\e[1;36m"
+nocolor="\e[0m"
+
+echo -e "${red}🚀 Starting all services...${nocolor}"
+
+#running ticket service
+kubectl apply -f k8s/ticket-service-deployment.yaml
+kubectl apply -f k8s/ticket-service-service.yaml
+echo -e "${yellow}⏳ Waiting for ticket-service to be ready...${nocolor}"
+kubectl wait --for=condition=ready pod -l app=ticket-service --timeout=60s
+echo -e "${magenta}ticket service IP: ${nocolor}$(minikube service ticket-service --url)"
+
+#running support service
+kubectl apply -f k8s/support-service-deployment.yaml
+kubectl apply -f k8s/support-service-service.yaml
+echo -e "${yellow}⏳ Waiting for support-service to be ready...${nocolor}"
+kubectl wait --for=condition=ready pod -l app=support-service --timeout=60s 
+echo -e "${magenta}support service IP: ${nocolor}$(minikube service support-service --url)"
+
+#running notification service
+kubectl apply -f k8s/notification-service-deployment.yaml
+kubectl apply -f k8s/notification-service-service.yaml
+echo -e "${yellow}⏳ Waiting for notification-service to be ready...${nocolor}"
+kubectl wait --for=condition=ready pod -l app=notification-service --timeout=60s
+echo -e "${magenta}notification service IP: ${nocolor}$(minikube service notification-service --url)"
+
+#running reporting service
+kubectl apply -f k8s/reporting-service-deployment.yaml
+kubectl apply -f k8s/reporting-service-service.yaml
+echo -e "${yellow}⏳ Waiting for reporting-service to be ready...${nocolor}"
+kubectl wait --for=condition=ready pod -l app=reporting-service --timeout=60s
+echo -e "${magenta}reporting service IP: ${nocolor}$(minikube service reporting-service --url)"
+
+echo -e "${green}✅ All services are running!${nocolor}"

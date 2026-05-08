@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Switch to Minikube's Docker environment
+eval $(minikube docker-env)
+
+# Rebuild all images
+docker build -t ticket-service ./ticket-service
+docker build -t support-service ./support-service
+docker build -t notification-service ./notification-service
+docker build -t reporting-service ./reporting-service
